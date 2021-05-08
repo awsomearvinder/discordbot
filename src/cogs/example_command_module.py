@@ -3,6 +3,8 @@ An example module for future contributors to reference using commands.
 """
 from discord.ext import commands
 
+from ..shared_state import SharedState
+
 
 class ExampleCommandModule(commands.Cog):
     """
@@ -10,7 +12,7 @@ class ExampleCommandModule(commands.Cog):
     This one uses commands unlike the one in example_event_module
     """
 
-    def __init__(self, bot, config):
+    def __init__(self, bot: commands.bot.Bot, config: SharedState):
         self.bot = bot
         self.config = config
 
@@ -19,7 +21,7 @@ class ExampleCommandModule(commands.Cog):
     # I reccomend looking into both async/await and decorators to
     # learn more about what's going on here.
     @commands.command(name="ping", aliases=["pong", "poong"])
-    async def measure_ping(self, ctx):
+    async def measure_ping(self, ctx: commands.context.Context):
         """
         Measures the bot latency to discord.
         """
@@ -27,7 +29,7 @@ class ExampleCommandModule(commands.Cog):
 
 
 # This function is called by the load_extension method on the bot.
-def setup(bot, config):
+def setup(bot, config: SharedState):
     """
     Function called by load_extension method on the bot.
     This is used to setup a discord module.

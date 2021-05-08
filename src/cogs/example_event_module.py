@@ -4,6 +4,8 @@ An example module for future contributors to reference using events.
 
 from discord.ext import commands
 
+from ..shared_state import SharedState
+
 
 class ExampleEventModule(commands.Cog):
     """
@@ -11,7 +13,7 @@ class ExampleEventModule(commands.Cog):
     This one uses events unlike the one in example_command_module
     """
 
-    def __init__(self, bot, config):
+    def __init__(self, bot: commands.bot.Bot, config: SharedState):
         self.bot = bot
         self.config = config
 
@@ -28,7 +30,7 @@ class ExampleEventModule(commands.Cog):
 
 
 # This function is called by the load_extension method on the bot.
-def setup(bot, config):
+def setup(bot: commands.bot.Bot, config: SharedState):
     """
     Function called by load_extension method on the bot.
     This is used to setup a discord module.

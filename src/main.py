@@ -39,7 +39,7 @@ def main():
     bot.run(config.token)
 
 
-def load_modules(bot, config):
+def load_modules(bot: commands.bot.Bot, config: SharedState):
     """
     Imports all modules in MODULES
     Passes through bot and config to the setup function.

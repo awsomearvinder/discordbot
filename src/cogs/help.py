@@ -3,12 +3,18 @@ Mainly a help command that replaces the default command that discord.py provides
 This module also contains related commands and functions such as about, contrib, docs.
 """
 from contextlib import suppress
+from typing import Callable, Union, TypeVar, Iterable
 
 import discord
 from discord.ext import commands
 
+from ..shared_state import SharedState
 
-def find(cond, iterator):
+
+Item = TypeVar("Item")
+
+
+def find(cond: Callable[[Item], bool], iterator: Iterable[Item]) -> Union[Item, None]:
     """
     Returns the first value that matches f
     otherwise Returns None.
@@ -19,7 +25,7 @@ def find(cond, iterator):
     return None
 
 
-def misc_command_str(cmds):
+def misc_command_str(cmds: Iterable[commands.Command]):
     """Builds the uncategorized command string for the discord embed description."""
     uncategorized_commands = ""
     for cmd in cmds:
@@ -27,7 +33,7 @@ def misc_command_str(cmds):
     return uncategorized_commands[:-3]
 
 
-def description_string_builder(prefix, cog):
+def description_string_builder(prefix: str, cog: commands.cog.Cog):
     """Builds the description command string for the discord embed description."""
 
     description_string = ""
@@ -37,7 +43,7 @@ def description_string_builder(prefix, cog):
         doc_item = cmd.help
         alias_string = ""
         for alias in cmd.aliases:
-            alias_string += f"`{alias}`, " if alias else None
+            alias_string += f"`{alias}`, " if alias else ""
         alias_string = alias_string[:-2]
         dash = ", " if alias_string else ""
         usage = cmd.usage if cmd.usage else ""
@@ -52,14 +58,14 @@ def description_string_builder(prefix, cog):
 class Information(commands.Cog):
     """Defines everything related towards the help command."""
 
-    def __init__(self, bot, config):
+    def __init__(self, bot: commands.bot.Bot, config: SharedState):
         self.embed_color = discord.Color(0x2F3136)
         self.bot = bot
         self.config = config
         self.prefix = config.prefix
 
     @commands.command(name="contrib")
-    async def send_contribution_info(self, ctx):
+    async def send_contribution_info(self, ctx: commands.context.Context):
         """Contains information about how to contribute to the bot."""
 
         contributing_md_url = (
@@ -76,7 +82,7 @@ class Information(commands.Cog):
 
     # replaces the default help command
     @commands.command(name="help", aliases=["h"], usage="[command_name|cog_name]")
-    async def send_help(self, ctx, *args):
+    async def send_help(self, ctx: commands.context.Context, *args: str):
         """Provides information about available commands."""
 
         argument = " ".join(args).lower().strip()
@@ -159,6 +165,6 @@ class Information(commands.Cog):
 
 
 # This function is called by the load_extension method on the bot.
-def setup(bot, config):
+def setup(bot: commands.bot.Bot, config: SharedState):
     """Sets up the extension for the bot"""
     bot.add_cog(Information(bot, config))
