@@ -18,6 +18,7 @@ python = "^3.9"
 fuzzywuzzy = "^0.18.0"
 python-Levenshtein = "^0.12.2"
 aiosqlite = "^0.17.0"
+pytimeparse = { git = "https://github.com/wroberts/pytimeparse.git", rev = "9ad0a82" } # No commits since 2019, I've checked this revision.
 
 [tool.poetry.dev-dependencies]
 black = "22.3.0"

@@ -17,6 +17,7 @@ async def run_migration(db_path: pathlib.Path):
             "    server_id INTEGER NOT NULL,"
             "    time_period INTEGER NOT NULL,"
             "    role_id INTEGER NOT NULL,"
+            "    message_count INTEGER NOT NULL,"
             "    FOREIGN KEY(server_id) REFERENCES servers(id)"
             ");"
         )
@@ -25,7 +26,7 @@ async def run_migration(db_path: pathlib.Path):
             "    channel INTEGER NOT NULL,"
             "    activity_tracking_id INTEGER NOT NULL,"
             "    FOREIGN KEY(activity_tracking_id)"
-            "       REFERENCES activity_tracking_settings(activity_tracking_id)"
+            "       REFERENCES activity_tracking_settings(id)"
             ");"
         )
         create_message_log = (
